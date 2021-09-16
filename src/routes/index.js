@@ -5,6 +5,15 @@ Vue.use(Router)
 import Dashboad from '../views/dashboard/Dashboad.vue'
 import RequisitionsScreen from '../views/requisition/RequisitionsScreen.vue'
 import MyRequisitions from '../views/requisition/MyRequisitions.vue'
+import RequisitionManage from '../views/requisition/RequisitionManage.vue'
+
+import OrdersScreen from '../views/order/OrdersScreen.vue'
+import AddOrder from '../views/order/AddOrder.vue'
+import ProductsScreen from '../views/order/ProductScreen.vue'
+
+import PaymentScreen from '../views/payment/PaymentScreen.vue'
+import IncomeExpense from '../views/payment/IncomeExpenseManage.vue'
+import PaymentManage from '../views/payment/PaymentManage.vue'
 
 export default new Router({
     mode: 'history',
@@ -15,6 +24,23 @@ export default new Router({
         component: Dashboad
       },
       {
+        path: '/payments',
+        name: 'Payments',
+        component: PaymentScreen,
+        children: [
+          {
+            path: '/payments/income-expenses',
+            name: 'Income and Expenses',
+            component: IncomeExpense
+          },
+          {
+            path: '/payments/all',
+            name: 'All',
+            component: PaymentManage
+          },
+        ]
+      },
+      {
         path: '/requisitions',
         name: 'Requisitions',
         component: RequisitionsScreen,
@@ -23,7 +49,29 @@ export default new Router({
             path: '/requisitions/user',
             name: 'My Requisitions',
             component: MyRequisitions
-          }
+          },
+          {
+            path: '/requisitions/manage',
+            name: 'Manage',
+            component: RequisitionManage
+          },
+        ]
+      },
+      {
+        path: '/orders',
+        name: 'Orders',
+        component: OrdersScreen,
+        children: [
+          {
+            path: '/orders/add',
+            name: 'Add',
+            component: AddOrder
+          },
+          {
+            path: '/orders/products',
+            name: 'Products',
+            component: ProductsScreen
+          },
         ]
       },
     ]
