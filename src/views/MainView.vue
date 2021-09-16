@@ -2,14 +2,19 @@
   <a-layout id="components-layout-demo-top-side-2">
     <a-layout-header class="header" style="background: #fff">
       <div class="logo" />
-      <h2 style="text-transform: capitalize;">Abridge Inc.</h2>
-      <a-menu
-        theme="light"
-        mode="horizontal"
-        :default-selected-keys="['2']"
-        :style="{ lineHeight: '64px' }"
-      >
-      </a-menu>
+      <a-row>
+        <a-col :span="14">
+          <h2 style="text-transform: capitalize; width: 300px">Abridge Inc.</h2>
+        </a-col>
+        <a-col :span="4" style="text-align: right">
+          <div style="width: 400px">
+            <a-button type="outline" size="small" style="margin-right: 10px">@username</a-button>
+            <a-avatar size="large" icon="user" />
+          </div>
+        </a-col>
+      </a-row>
+      
+      
     </a-layout-header>
     <a-layout style="height: calc(100vh - 64px)">
       <a-layout-sider width="200" style="background: #001529">

@@ -1,6 +1,16 @@
 <template>
   <div class="container">
-      <h2>Products</h2>
+      <div style="display: flex; justify-content: space-between;">
+        <h2>Site Products</h2>
+            <a-badge :count="8">
+                <a-button size="large" type="primary">
+                    <a-icon type="shopping-cart"/>
+                    Cart
+                </a-button>
+            </a-badge>
+      </div>
+      <a-input-search placeholder="input search text" style="margin: 10px 0px;" size="large" @search="onSearch" />
+      <h3 style="margin: 10px 0px;">Recommended featured items</h3>
       <div>
           <a-row :gutter="[16,16]">
             <a-col :span="6">
@@ -35,5 +45,7 @@ export default {
 </script>
 
 <style>
-
+.d{
+    justify-content: space-between;
+}
 </style>
