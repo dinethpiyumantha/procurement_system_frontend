@@ -15,6 +15,14 @@ import PaymentScreen from '../views/payment/PaymentScreen.vue'
 import IncomeExpense from '../views/payment/IncomeExpenseManage.vue'
 import PaymentManage from '../views/payment/PaymentManage.vue'
 
+import ManageRequisitionsScreen from '../views/Staff/ManageRequisitions/ManageRequisitionsScreen'
+import NewRequisitions from '../views/Staff/ManageRequisitions/NewRequisitions'
+import Approved from '../views/Staff/ManageRequisitions/Approved'
+import Rejected from '../views/Staff/ManageRequisitions/Rejected'
+
+import ViewOrdersScreen from '../views/Staff/Orders/OrdersScreen'
+import CreatedOrders from '../views/Staff/Orders/CreatedOrders'
+
 export default new Router({
     mode: 'history',
     routes: [
@@ -71,6 +79,40 @@ export default new Router({
             path: '/orders/products',
             name: 'Products',
             component: ProductsScreen
+          },
+        ]
+      },
+      {
+        path: '/manage_requisitions',
+        name: 'Manage Requisitions',
+        component: ManageRequisitionsScreen,
+        children: [
+          {
+            path: '/manage_requisitions/new',
+            name: 'New Requisitions',
+            component: NewRequisitions
+          },
+          {
+            path: '/manage_requisitions/approved', 
+            name: 'Approved',
+            component: Approved
+          },
+          {
+            path: '/manage_requisitions/rejected', 
+            name: 'Rejected',
+            component: Rejected
+          },
+        ]
+      },
+      {
+        path: '/approved_orders',
+        name: 'All Orders',
+        component: ViewOrdersScreen,
+        children: [
+          {
+            path: '/approved_orders/list',
+            name: 'Approved',
+            component: CreatedOrders
           },
         ]
       },
