@@ -64,6 +64,32 @@
             </router-link>
           </a-menu-item>
         </a-sub-menu>
+        <a-sub-menu key="sub3">
+          <span slot="title"><a-icon type="safety-certificate" width="2em" height="2em" /><span>Manage Requisitions</span></span>
+          <a-menu-item key="8">
+            <router-link to="/manage_requisitions/new">
+              New Requisitions
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="9">
+            <router-link to="/manage_requisitions/approved">
+              Approved Requisitions
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="10">
+            <router-link to="/manage_requisitions/rejected">
+              Rejected Requisitions
+            </router-link>
+          </a-menu-item>
+        </a-sub-menu>
+        <a-sub-menu key="sub4">
+          <span slot="title"><a-icon type="shopping-cart" width="2em" height="2em" /><span>Orders Created</span></span>
+          <a-menu-item key="11">
+            <router-link to="/approved_orders/list">
+              Order List
+            </router-link>
+          </a-menu-item>
+        </a-sub-menu>
       </a-menu>
       </a-layout-sider>
       <a-layout style="padding: 0 24px 24px; background: #eee">
