@@ -21,7 +21,8 @@ import Approved from '../views/Staff/ManageRequisitions/Approved'
 import Rejected from '../views/Staff/ManageRequisitions/Rejected'
 
 import ViewOrdersScreen from '../views/Staff/Orders/OrdersScreen'
-import CreatedOrders from '../views/Staff/Orders/CreatedOrders'
+import CreatedOrders from '../views/Staff/Orders/CreatedOrderList'
+import createNewOrder from '../views/Staff/Orders/AddNewOrder'
 
 export default new Router({
     mode: 'history',
@@ -89,7 +90,7 @@ export default new Router({
         children: [
           {
             path: '/manage_requisitions/new',
-            name: 'New Requisitions',
+            name: 'New Requisitions (Pending Approval)',
             component: NewRequisitions
           },
           {
@@ -106,14 +107,19 @@ export default new Router({
       },
       {
         path: '/approved_orders',
-        name: 'All Orders',
+        name: 'All Oders',
         component: ViewOrdersScreen,
         children: [
           {
             path: '/approved_orders/list',
-            name: 'Approved',
+            name: 'Approved Oders' ,
             component: CreatedOrders
           },
+          {
+            path: '/create_order/new',
+            name: 'Create New Order',
+            component: createNewOrder
+          }
         ]
       },
     ]
