@@ -1,35 +1,31 @@
-<script>
-import { Bar } from "vue-chartjs";
+<template>
+  <div>
+    <apexchart :type="type" :options="options" :series="series"></apexchart>
+  </div>
+</template>
 
+<script>
 export default {
-  extends: Bar,
-  mounted() {
-    this.renderChart(
-      {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December"
-        ],
-        datasets: [
-          {
-            label: "Data One",
-            backgroundColor: "#f87979",
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
-          }
-        ]
+  data() {
+    return {
+      type: 'bar',
+      options: {
+        chart: {
+          id: 'vuechart-example'
+        },
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+        }
       },
-      { responsive: true, maintainAspectRatio: false }
-    );
+      series: [{
+        name: 'series-1',
+        data: [30, 40, 45, 50, 49, 60, 70, 91]
+      }]
+    }
   }
-};
+}
 </script>
+
+<style>
+
+</style>

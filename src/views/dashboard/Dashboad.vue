@@ -23,7 +23,7 @@
             <a-row style="margin-top: 20px">
               <a-col>
                 <a-card>
-                  <a-row :gutter="[16,16]">
+                  <a-row :gutter="[16,16]" style="padding: 10px 0px">
                     <a-col>
                       <a-alert
                         message="Warning Text Warning Text Warning TextW arning Text Warning Text Warning TextWarning Text"

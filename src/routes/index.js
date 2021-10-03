@@ -15,6 +15,15 @@ import PaymentScreen from '../views/payment/PaymentScreen.vue'
 import IncomeExpense from '../views/payment/IncomeExpenseManage.vue'
 import PaymentManage from '../views/payment/PaymentManage.vue'
 
+import SupplierScreen from '../views/supplier/SupplierScreen.vue'
+import AllSuppliers from '../views/supplier/AllSuppliers.vue'
+import MyOrders from '../views/supplier/MyOrders.vue'
+import Register from '../views/supplier/Register.vue'
+
+
+// Test
+import Charty from '../components/Charts/ApprovedOrders.vue'
+
 export default new Router({
     mode: 'history',
     routes: [
@@ -74,5 +83,32 @@ export default new Router({
           },
         ]
       },
+      {
+        path: '/supplier',
+        name: 'Supplier',
+        component: SupplierScreen,
+        children: [
+          {
+            path: '/supplier/all',
+            name: 'All',
+            component: AllSuppliers
+          },
+          {
+            path: '/orders/:id',
+            name: 'My Orders',
+            component: MyOrders
+          },
+          {
+            path: '/supplier/register',
+            name: 'Register',
+            component: Register
+          },
+        ]
+      },
+      {
+        path: '/chart',
+        component: Charty,
+        name: 'test'
+      }
     ]
 });
