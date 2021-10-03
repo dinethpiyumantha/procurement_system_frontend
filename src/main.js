@@ -7,6 +7,8 @@ import VueRouter from 'vue-router'
 
 import Router from './routes/index.js';
 
+import vueResource from 'vue-resource';
+Vue.use(vueResource)
 
 Vue.config.productionTip = false
 
