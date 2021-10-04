@@ -1,22 +1,15 @@
 <template>
     <div class="container">
         <h3>Create approved Order</h3>
-        <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
-            <a-form-model-item label="Order ID">
+        <a-form-model ref="ruleForm" :model="form" :label-col="labelCol" :wrapper-col="wrapperCol" :rules="rules">
+            <a-form-model-item label="Order ID" has-feedback prop="order_id">
                 <a-input v-model="form.order_id" />
             </a-form-model-item>
             <a-form-model-item label="Requisition ID">
                 <a-input v-model="form.requisition_id" :disabled="disabled"/>
             </a-form-model-item>
             <a-form-model-item label="Good Type">
-                <a-select v-model="form.region" placeholder="please select your zone" :disabled="disabled">
-                    <a-select-option value="shanghai">
-                    Zone one
-                    </a-select-option>
-                    <a-select-option value="beijing">
-                    Zone two
-                    </a-select-option>
-                </a-select>
+                <a-input v-model="form.good_type" />
             </a-form-model-item>
             <a-form-model-item label="Quantity">
                 <a-input-number id="inputNumber" v-model="form.quantity" :min="1" :max="100" />
@@ -24,13 +17,10 @@
             <a-form-model-item label="Estimated Budget">
                 <a-input suffix="LKR" v-model="form.amount" />
             </a-form-model-item>
-            <a-form-model-item label="Supplier">
+            <a-form-model-item label="Supplier" has-feedback prop="supplier_id">
                 <a-select v-model="form.supplier_id" placeholder="please select your zone">
-                    <a-select-option value="shanghai">
-                    Zone one
-                    </a-select-option>
-                    <a-select-option value="beijing">
-                    Zone two
+                    <a-select-option v-for="suppliers in supplier_id" :key="suppliers">
+                      {{ suppliers }}
                     </a-select-option>
                 </a-select>
             </a-form-model-item>
@@ -52,35 +42,69 @@
     </div>
 </template>
 <script>
+
+// Import local data files
+import LocalData from '../../../assets/data.json';
+
 export default {
   data() {
     return {
       disabled: true,
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
+      //assign json array data to suppliers
+      supplier_id: LocalData.data.suppliers,
       form: {
         order_id: '',
         requisition_id: '',
         good_type: '',
         quantity: '',
+        //estimated_budget: '',
         amount: '',
         site_name: '', 
         supplier_id: '',
         delivery_address: '',
         date_created: '',
       },
+      rules: {
+        order_id: [{required: true, message: 'Please insert Order ID',trigger: 'blur',},],
+        supplier_id: [{required: true, message: 'Please select a Supplier',trigger: 'blur',}],
+      },
+
     };
   },
   methods: {
     onSubmit() {
-        console.log('submit!', this.form);
-        //POST form data into DB
-        this.$http.post('http://127.0.0.1:8001/api/staff/order/insert/', this.form).then(function (response){
-            this.openNotificationSuccess("Order added successfully!", "Entry added");
-            console.log(response);
-        }, (error)=> {
-            this.openNotificationUnSuccess("order insert unsuccessful","Entry was not added");
-            console.log(error);
+        this.$refs.ruleForm.validate(valid => {
+          if (valid) {
+              //POST form data into DB
+              this.$http.post('http://127.0.0.1:8001/api/staff/order/insert', this.form).then(function (response){
+                  console.log(response);
+
+                  // update order_raised status in the requisition table
+                  this.$http.put("http://127.0.0.1:8001/api/staff/raiseorder/" +this.form.requisition_id).then(function (response){
+                    console.log("requi id:" + this.form.requisition_id);
+                    console.log(response);
+                  }, (error)=>{console.log(error);});
+
+                  //display successful message
+                  this.openNotificationSuccess("Order added successfully!", "Entry added");
+                  // this.$router.push({path: '/approved_orders/list'});
+                  this.loading = true;
+                      setTimeout(() => {
+                          this.visible = false;
+                          this.loading = false;
+                          this.$router.push({path: '/approved_orders/list'});
+                      }, 2000);
+              }, (error)=> {
+                  this.openNotificationUnSuccess("order insert unsuccessful","Entry was not added");
+                  console.log(error);
+              });
+          }else {//else means form validation is unsuccessful
+          this.openNotificationUnsuccess("validation unsuccessful", "");
+          console.log('error submit!!');
+          return false;
+        }
         });
     },
     cancel() {
