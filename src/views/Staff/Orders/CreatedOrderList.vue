@@ -39,6 +39,7 @@
             <div class="row"><div class="col-4"><b>site_name: </b></div><div class="col-8"><p>{{model.site_name}}</p></div></div>
             <div class="row"><div class="col-4"><b>Supplier: </b></div><div class="col-8"><p>{{model.supplier_id}}</p></div></div>
             <div class="row"><div class="col-4"><b>Delivery Address: </b></div><div class="col-8"><p>{{model.delivery_address}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Order created Date: </b></div><div class="col-8"><p>{{model.date_created}}</p></div></div>
        
             <!--model view footer-->  
             <template slot="footer">
@@ -79,6 +80,7 @@
         {
             title: 'Amount',
             dataIndex: 'amount',
+
         },
         {
             title: 'Site',
@@ -87,12 +89,12 @@
         {
             title: 'Supplier',
             dataIndex: 'supplier_id',
+
         },
-        // {
-        //     title: 'Date_created',
-        //     dataIndex: 'date_created',
-        //     width: '25%',
-        // },
+        {
+            title: 'Date_created',
+            dataIndex: 'date_created',
+        },
     ];
 
     export default {
@@ -124,7 +126,7 @@
                     site_name: '',
                     supplier_id: '',
                     delivery_address: '',
-                    // date_created: '',
+                    date_created: '',
                 } //**this model is useful when displaying DB retrieved data in our Modal windows */
             }
         },
