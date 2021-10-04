@@ -116,7 +116,7 @@ export default new Router({
             component: CreatedOrders
           },
           {
-            path: '/create_order/new',
+            path: '/create_order/:id',
             name: 'Create New Order',
             component: createNewOrder
           }
