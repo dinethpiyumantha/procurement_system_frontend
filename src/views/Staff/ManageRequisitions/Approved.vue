@@ -67,7 +67,6 @@
         {
             title: 'Requisition ID',
             dataIndex: 'requisition_id',
-            width: '25%',
         },
         // {
         //     title: 'Date',
@@ -88,6 +87,10 @@
         {
             title: 'Construction_Site',
             dataIndex: 'site_name',
+        },
+        {
+            title: 'Approval_status',
+            dataIndex: 'approval_status',
         },
         {
             title: "Actions",
@@ -128,8 +131,10 @@
                     requisition_id: '',
                     // date: '',
                     good_type: '',
+                    quantity: '',
                     estimated_budget: '',
                     site_name: '',
+                    approval_status: '',
                 } //**this model is useful when displaying DB retrieved data in our Modal windows */
             }
         },
