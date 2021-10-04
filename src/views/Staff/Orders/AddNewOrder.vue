@@ -9,7 +9,7 @@
                 <a-input v-model="form.requisition_id" :disabled="disabled"/>
             </a-form-model-item>
             <a-form-model-item label="Good Type">
-                <a-select v-model="form.region" placeholder="please select your zone">
+                <a-select v-model="form.region" placeholder="please select your zone" :disabled="disabled">
                     <a-select-option value="shanghai">
                     Zone one
                     </a-select-option>
