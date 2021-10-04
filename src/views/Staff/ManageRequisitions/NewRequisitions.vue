@@ -37,11 +37,17 @@
     <div>
         <a-modal v-model="visible" :title="'Requisition - '+ model.requisition_id" on-ok="handleOk">
             <!--model view content-->
-            <div class="row"><div class="col-4"><b>requisition_id: </b></div><div class="col-8"><p>{{model.requisition_id}}</p></div></div>
-            <div class="row"><div class="col-4"><b>good_type: </b></div><div class="col-8"><p>{{model.good_type}}</p></div></div>
+            <div class="row"><div class="col-3"><b>Requisitions ID: </b></div><div class="col-9"><p>{{model.requisition_id}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Good Type: </b></div><div class="col-8"><p>{{model.good_type}}</p></div></div>
             <div class="row"><div class="col-4"><b>Quantity: </b></div><div class="col-8"><p>{{model.quantity}}</p></div></div>
-            <div class="row"><div class="col-4"><b>estimated_budget: </b></div><div class="col-8"><p>{{model.estimated_budget}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Estimated Budget: </b></div><div class="col-8"><p>{{model.estimated_budget}}</p></div></div>
             <div class="row"><div class="col-4"><b>Construction Site: </b></div><div class="col-8"><p>{{model.site_name}}</p></div></div>
+            <!-- <div class="row"><b>Requisitions ID: </b><span style="margin-left: 25px;">{{model.requisition_id}}</span></div><br>
+            <div class="row"><b>Good Type: </b><span style="margin-left: 25px;">{{model.good_type}}</span></div>
+            <div class="row"><b>Quantity: </b><span style="margin-left: 25px;">{{model.quantity}}</span></div>
+            <div class="row"><b>Estimated Budget: </b><span style="margin-left: 25px;">{{model.estimated_budget}}</span></div>
+            <div class="row"><b>Construction Site: </b><span style="margin-left: 25px;">{{model.site_name}}</span></div>
+            <div class="row"><b>Construction Site: </b><span style="margin-left: 25px;">{{model.site_name}}</span></div> -->
        
             <!--model view footer-->  
             <template slot="footer">
@@ -311,6 +317,7 @@
                 searchResult: function(){
                     return this.requiData.filter((item) => {
                         //dropdown selcted value or the searched value will be matched with the respective data in DB table
+                        // return (item.requisition_id.toLowerCase().match(this.requisition_id.toLowerCase())) &&(item.good_type.toLowerCase().match(this.good_type.toLowerCase())) && (item.estimated_budget.toLowerCase().match(this.estimated_budget.toLowerCase())) && (item.site_name.toLowerCase().match(this.site_name.toLowerCase()));
                         return (item.requisition_id.toLowerCase().match(this.requisition_id.toLowerCase())) &&(item.good_type.toLowerCase().match(this.good_type.toLowerCase())) && (item.estimated_budget.toLowerCase().match(this.estimated_budget.toLowerCase())) && (item.site_name.toLowerCase().match(this.site_name.toLowerCase()));
                     });
                 }
