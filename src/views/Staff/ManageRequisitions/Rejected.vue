@@ -8,7 +8,7 @@
     <div class="row px-3 my-4">
         <!--search bar-->
         <a-input-search 
-            placeholder="Search nurse by name" 
+            placeholder="Search by Requisition ID" 
             style="margin: 20px 0px;"
             size="large"
             v-model="search" 
@@ -19,7 +19,7 @@
     <!--table structure-->
     <a-table
         :columns="columns"
-        :data-source="requiData"
+        :data-source="searchResult"
         :loading="loading"
         @change="handleTableChange"
         style="padding: 0px"
@@ -32,10 +32,12 @@
     <div>
         <a-modal v-model="visible" :title="'Requisition - '+ model.requisition_id" on-ok="handleOk">
             <!--model view content-->
-            <div class="row"><div class="col-4"><b>requisition_id: </b></div><div class="col-8"><p>{{model.requisition_id}}</p></div></div>
-            <div class="row"><div class="col-4"><b>good_type: </b></div><div class="col-8"><p>{{model.good_type}}</p></div></div>
-            <div class="row"><div class="col-4"><b>estimated_budget: </b></div><div class="col-8"><p>{{model.estimated_budget}}</p></div></div>
-            <div class="row"><div class="col-4"><b>site_name: </b></div><div class="col-8"><p>{{model.site_name}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Requisitions ID: </b></div><div class="col-8"><p>{{model.requisition_id}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Good Type: </b></div><div class="col-8"><p>{{model.good_type}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Quantity: </b></div><div class="col-8"><p>{{model.quantity}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Estimated Budget: </b></div><div class="col-8"><p>{{model.estimated_budget}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Construction Site Name: </b></div><div class="col-8"><p>{{model.site_name}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Approval Status: </b></div><div class="col-8"><p>{{model.approval_status}}</p></div></div>
        
             <!--model view footer-->  
             <template slot="footer">
@@ -60,7 +62,6 @@
         {
             title: 'Requisition ID',
             dataIndex: 'requisition_id',
-            width: '25%',
         },
         // {
         //     title: 'Date',
@@ -81,6 +82,10 @@
         {
             title: 'Construction_Site',
             dataIndex: 'site_name',
+        },
+        {
+            title: 'Approval Status',
+            dataIndex: 'approval_status',
         },
     ];
 
@@ -107,8 +112,10 @@
                     requisition_id: '',
                     // date: '',
                     good_type: '',
+                    quantity: '',
                     estimated_budget: '',
                     site_name: '',
+                    approval_status: '',
                 } //**this model is useful when displaying DB retrieved data in our Modal windows */
             }
         },
@@ -175,7 +182,7 @@
                     return this.requiData.filter((item) => {
                         //dropdown selcted value or the searched value will be matched with the respective data in DB table
                         // return (item.requisition_id.toLowerCase().match(this.requisition_id.toLowerCase())) &&(item.good_type.toLowerCase().match(this.good_type.toLowerCase())) && (item.estimated_budget.toLowerCase().match(this.estimated_budget.toLowerCase())) && (item.site_name.toLowerCase().match(this.site_name.toLowerCase()));
-                        return (item.requisition_id.toLowerCase().match(this.requisition_id.toLowerCase()) );
+                        return (item.requisition_id.toLowerCase().match(this.search) );
                     });
                 }
             }

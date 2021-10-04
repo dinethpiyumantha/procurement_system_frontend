@@ -8,7 +8,7 @@
     <div class="row px-3 my-4">
         <!--search bar-->
         <a-input-search 
-            placeholder="Search nurse by name" 
+            placeholder="Search by Requisition ID" 
             style="margin: 20px 0px;"
             size="large"
             v-model="search" 
@@ -19,7 +19,7 @@
     <!--table structure-->
     <a-table
         :columns="columns"
-        :data-source="requiData"
+        :data-source="searchResult"
         :loading="loading"
         @change="handleTableChange"
         style="padding: 0px"
@@ -219,7 +219,7 @@
 
             //search function
             onSearch(value){
-                console.log(value);
+                console.log("searched value: "+ value);
             },
 
             //update approval status when approved
@@ -315,10 +315,11 @@
         },
         computed: {
                 searchResult: function(){
-                    return this.requiData.filter((item) => {
+                    //this returns an array of records matched to the search value
+                    return this.requiData.filter((requisition) => {
                         //dropdown selcted value or the searched value will be matched with the respective data in DB table
                         // return (item.requisition_id.toLowerCase().match(this.requisition_id.toLowerCase())) &&(item.good_type.toLowerCase().match(this.good_type.toLowerCase())) && (item.estimated_budget.toLowerCase().match(this.estimated_budget.toLowerCase())) && (item.site_name.toLowerCase().match(this.site_name.toLowerCase()));
-                        return (item.requisition_id.toLowerCase().match(this.requisition_id.toLowerCase())) &&(item.good_type.toLowerCase().match(this.good_type.toLowerCase())) && (item.estimated_budget.toLowerCase().match(this.estimated_budget.toLowerCase())) && (item.site_name.toLowerCase().match(this.site_name.toLowerCase()));
+                        return (requisition.requisition_id.toLowerCase().match(this.search));
                     });
                 }
             }
