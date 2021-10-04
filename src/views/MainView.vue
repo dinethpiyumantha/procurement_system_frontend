@@ -64,6 +64,20 @@
             </router-link>
           </a-menu-item>
         </a-sub-menu>
+
+         <a-sub-menu key="sub04">
+          <span slot="title"><a-icon type="dollar" width="2em" height="2em" /><span>Delivery Management</span></span>
+          <a-menu-item key="1">
+            <router-link to="/DeliveryOrder/AcceptedOrder">
+              Accepted Order
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="2">
+            <router-link to="/DeliveryOrder/PurchasedOrder">
+              Purchased Order
+            </router-link>
+          </a-menu-item>
+        </a-sub-menu>
       </a-menu>
       </a-layout-sider>
       <a-layout style="padding: 0 24px 24px; background: #eee">

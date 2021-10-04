@@ -4,6 +4,9 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import VueRouter from 'vue-router'
 
+import vueResource from 'vue-resource';
+Vue.use(vueResource)
+
 
 import Router from './routes/index.js';
 

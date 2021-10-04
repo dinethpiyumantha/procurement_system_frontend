@@ -15,6 +15,12 @@ import PaymentScreen from '../views/payment/PaymentScreen.vue'
 import IncomeExpense from '../views/payment/IncomeExpenseManage.vue'
 import PaymentManage from '../views/payment/PaymentManage.vue'
 
+
+import DeliveryManage from '../views/DeliveryOrder/DeliveryManage'
+import AcceptedOrder from '../views/DeliveryOrder/AcceptedOrder'
+import PurchasedOrder from '../views/DeliveryOrder/PurchasedOrder'
+
+
 export default new Router({
     mode: 'history',
     routes: [
@@ -71,6 +77,24 @@ export default new Router({
             path: '/orders/products',
             name: 'Products',
             component: ProductsScreen
+          },
+        ]
+      },
+
+      {
+        path: '/DeliveryOrder',
+        name: 'DeliveryOrders',
+        component: DeliveryManage,
+        children: [
+          {
+            path: '/DeliveryOrder/AcceptedOrder',
+            name: 'Accepted Order',
+            component: AcceptedOrder
+          },
+          {
+            path: '/DeliveryOrder/PurchasedOrder',
+            name: 'Purchased Order',
+            component: PurchasedOrder
           },
         ]
       },

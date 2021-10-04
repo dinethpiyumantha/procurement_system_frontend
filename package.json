@@ -16,7 +16,9 @@
     "vue-clock2": "^1.1.5",
     "vue-digital-clock": "^2.0.0",
     "vue-moment": "^4.1.0",
-    "vue-router": "^3.5.2"
+    "vue-router": "^3.5.2",
+    "vue-resource": "^1.5.3",
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
