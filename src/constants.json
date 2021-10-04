@@ -10,7 +10,8 @@
             "register" : "/suppliers/register",
             "unregister" : "/suppliers/unregister/",
             "getOrdersById" : "/orders/supplier/",
-            "orderApproveBySupplier" : "/orders/supplier/approve/"
+            "orderApproveBySupplier" : "/orders/supplier/approve/",
+            "updateSupplier" : "/suppliers/update/"
         },
         "order" : {
 
