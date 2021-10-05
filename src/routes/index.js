@@ -5,6 +5,8 @@ Vue.use(Router)
 import Dashboad from '../views/dashboard/Dashboad.vue'
 import RequisitionsScreen from '../views/requisition/RequisitionsScreen.vue'
 import MyRequisitions from '../views/requisition/MyRequisitions.vue'
+import UpdateRequisition from '../views/requisition/UpdateRequisition.vue'
+import AddNewRequisition from '../views/requisition/AddNewRequisition.vue'
 import RequisitionManage from '../views/requisition/RequisitionManage.vue'
 
 import OrdersScreen from '../views/order/OrdersScreen.vue'
@@ -49,6 +51,16 @@ export default new Router({
             path: '/requisitions/user',
             name: 'My Requisitions',
             component: MyRequisitions
+          },
+          {
+            path: '/update-requisition/:id',
+            name: 'Update Requisition',
+            component: UpdateRequisition
+          },
+          {
+            path: '/requisitions/add',
+            name: 'Add New Requisition',
+            component: AddNewRequisition
           },
           {
             path: '/requisitions/manage',

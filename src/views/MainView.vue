@@ -53,16 +53,25 @@
         </a-sub-menu>
         <a-sub-menu key="sub2">
           <span slot="title"><a-icon type="safety-certificate" /><span>Requsitions Management</span></span>
+
           <a-menu-item key="6">
             <router-link to="/requisitions/user">
               My Requsitions
             </router-link>
           </a-menu-item>
+
+          <a-menu-item key="6B">
+            <router-link to="/requisitions/add">
+              Add New Requsition
+            </router-link>
+          </a-menu-item>
+
           <a-menu-item key="7">
             <router-link to="/requisitions/manage">
               Manage Requsitions
             </router-link>
           </a-menu-item>
+          
         </a-sub-menu>
       </a-menu>
       </a-layout-sider>

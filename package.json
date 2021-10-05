@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "ant-design-vue": "^1.7.8",
+    "axios": "^0.22.0",
     "chart.js": "^3.5.1",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
@@ -16,6 +17,7 @@
     "vue-clock2": "^1.1.5",
     "vue-digital-clock": "^2.0.0",
     "vue-moment": "^4.1.0",
+    "vue-resource": "^1.5.3",
     "vue-router": "^3.5.2"
   },
   "devDependencies": {

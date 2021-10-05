@@ -1,149 +1,299 @@
 <template>
-  <div class="container">
+  <div>
+    <div class="container">
         <h2>My Requisitions</h2>
         <h3 style="color: #888; line-height: 10px">{{ new Date() | moment("dddd, MMMM Do YYYY") }}</h3>
         <a-input-search placeholder="input search text" style="margin: 20px 0px;" size="large" @search="onSearch" />
+    </div>
 
-
-        <a-table :columns="columns" :data-source="data" bordered>
-            <template
-            v-for="col in ['name', 'age', 'address']"
-            :slot="col"
-            slot-scope="text, record"
-            >
-            <!-- slot-scope="text, record, index" -->
-            <div :key="col">
-                <a-input
-                v-if="record.editable"
-                style="margin: -5px 0"
-                :value="text"
-                @change="e => handleChange(e.target.value, record.key, col)"
-                />
-                <template v-else>
-                {{ text }}
-                </template>
-            </div>
-            </template>
-            <template slot="operation" slot-scope="text, record">
-            <!-- <template slot="operation" slot-scope="text, record, index"> -->
-            <div class="editable-row-operations">
-                <span v-if="record.editable">
-                <a @click="() => save(record.key)">Save</a>
-                <span style="padding-left: 10px"/>
-                <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
-                    <a>Cancel</a>
-                </a-popconfirm>
-                </span>
-                <span v-else>
-                <a :disabled="editingKey !== ''" @click="() => edit(record.key)">Edit</a>
-                <span style="padding-left: 10px"/>
-                <a :disabled="editingKey !== ''" @click="() => edit(record.key)">View</a>
-                </span>
-            </div>
-            </template>
-        </a-table>
+    <!-- Table View -->
+    <a-table
+      :columns="columns"
+      :data-source="searchResult"
+      @change="onChange"
+      style="padding: 0px"
+      :customRow="customRow"
+    >
+      <a-button slot="action" type="primary" shape="circle" @click="showModal"
+        ><a-icon type="right" style="padding-bottom: 5px"
+      /></a-button>
+    </a-table>
+    <!-- View Model -->
+    <div>
+      <a-modal v-model="visible" title="My Requisition" on-ok="handleOk" :centered="true" width="700px">
+        <template slot="footer">
+          
+          <a-button
+            key="submit"
+            type="primary"
+            :loading="loading"
+            @click="handleUpdate"
+          >
+            Edit
+          </a-button>
+          <a-button
+            key="submit"
+            type="danger"
+            :loading="loading"
+            @click="handleDelete"
+          >
+            Delete
+          </a-button>
+          <a-button key="back" @click="handleCancel"> Close </a-button>
+        </template>
+        
+        <div class="row">
+          <div class="col-8">
+            <div class="row"><div class="col-4"><b>Requisition ID</b></div><div class="col-8"><p>{{model.requisition_id}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Product</b></div><div class="col-8"><p>{{model.good_type}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Date Created</b></div><div class="col-8"><p>{{model.dateCreated}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Approval Status</b></div><div class="col-8"><p>{{model.approvalStatus}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Action</b></div><div class="col-8"><p>{{model.action}}</p></div></div>
+          </div>
+        </div>      
+      </a-modal>
+    </div>
   </div>
 </template>
 
 <script>
+// Import libraries
+import axios from "axios";
+import 'vue-resource';
+/**
+ * Table Columns
+ * with sort methods and filters
+ */
 const columns = [
   {
-    title: 'Requisition ID',
-    dataIndex: 'name',
-    width: '25%',
-    scopedSlots: { customRender: 'name' },
+    title: "Requisition ID",
+    dataIndex: "requisition_id",
+    key: 'requisition_id',
+    sorter: (a, b) => {
+      let requisition_idA = a.requisition_id.toUpperCase();
+      let requisition_idB = b.requisition_id.toUpperCase();
+      if (requisition_idA < requisition_idB) {
+        return -1;
+      }
+      if (requisition_idA > requisition_idB) {
+        return 1;
+      }
+      return 0;
+    },
+    sortDirections: ["descend", "ascend"],
+  },
+   {
+    title: "Product",
+    dataIndex: "good_type",
+    key: 'good_type',
+    sorter: (a, b) => {
+      let good_typeA = a.good_type.toUpperCase();
+      let good_typeB = b.good_type.toUpperCase();
+      if (good_typeA < good_typeB) {
+        return -1;
+      }
+      if (good_typeA > good_typeB) {
+        return 1;
+      }
+      return 0;
+    },
+    sortDirections: ["descend", "ascend"],
+  },
+   {
+    title: "Date Created",
+    dataIndex: "dateCreated",
+    key: 'dateCreated',
+    sorter: (a, b) => {
+      let dateCreatedA = a.dateCreated.toUpperCase();
+      let dateCreatedB = b.dateCreated.toUpperCase();
+      if (dateCreatedA < dateCreatedB) {
+        return -1;
+      }
+      if (dateCreatedA > dateCreatedB) {
+        return 1;
+      }
+      return 0;
+    },
+    sortDirections: ["descend", "ascend"],
+  },
+   {
+    title: "Approval Status",
+    dataIndex: "approvalStatus",
+    key: 'approvalStatus',
+    sorter: (a, b) => {
+      let approvalStatusA = a.approvalStatus.toUpperCase();
+      let approvalStatusB = b.approvalStatus.toUpperCase();
+      if (approvalStatusA < approvalStatusB) {
+        return -1;
+      }
+      if (approvalStatusA > approvalStatusB) {
+        return 1;
+      }
+      return 0;
+    },
+    sortDirections: ["descend", "ascend"],
   },
   {
-    title: 'Products',
-    dataIndex: 'age',
-    width: '15%',
-    scopedSlots: { customRender: 'age' },
+    title: "Action",
+    dataIndex: "action",
+    key: 'action'
   },
   {
-    title: 'Supplier',
-    dataIndex: 'address',
-    width: '40%',
-    scopedSlots: { customRender: 'address' },
-  },
-  {
-    title: 'Status',
-    dataIndex: 'address',
-    width: '40%',
-    scopedSlots: { customRender: 'address' },
-  },
-  {
-    title: 'Actions',
-    dataIndex: 'operation',
-    scopedSlots: { customRender: 'operation' },
+    title: "",
+    key: "id",
+    fixed: "right",
+    width: 100,
+    scopedSlots: { customRender: "action" },
   },
 ];
-
-const data = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i.toString(),
-    name: `Edrward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
+function onChange(pagination, filters, sorter) {
+  console.log("params", pagination, filters, sorter);
 }
 export default {
   data() {
-    this.cacheData = data.map(item => ({ ...item }));
+    /**
+     * Data attributes
+     */
     return {
-      data,
+      data: [],
       columns,
-      editingKey: '',
+      loading: false,
+      visible: false,
+      search: '',
+      model: {
+        requisition_id: '',
+        good_type: undefined,
+        dateCreated: undefined,
+        approvalStatus: '',
+        action: '',
+      }
     };
   },
+  created() {
+    /**
+     * Get all persons from database
+     * using API request
+     */
+    axios.get("http://127.0.0.1:8000/api/requisition/all").then((response) => {
+      this.data = response.data.results;
+      console.log(this.data);
+    });
+  },
   methods: {
-    handleChange(value, key, column) {
-      const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
-      if (target) {
-        target[column] = value;
-        this.data = newData;
-      }
+    onChange,
+    showModal(e) {
+      this.visible = true;
+      console.log(e);
     },
-    edit(key) {
-      const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
-      this.editingKey = key;
-      if (target) {
-        target.editable = true;
-        this.data = newData;
-      }
+    handleOk() {
+      this.loading = true;
+      setTimeout(() => {
+        this.visible = false;
+        this.loading = false;
+      }, 2000);
+      
     },
-    save(key) {
-      const newData = [...this.data];
-      const newCacheData = [...this.cacheData];
-      const target = newData.filter(item => key === item.key)[0];
-      const targetCache = newCacheData.filter(item => key === item.key)[0];
-      if (target && targetCache) {
-        delete target.editable;
-        this.data = newData;
-        Object.assign(targetCache, target);
-        this.cacheData = newCacheData;
-      }
-      this.editingKey = '';
+    handleDelete() {
+      /**
+       * Call to delete a person by 
+       * mouse event
+       */
+      this.loading = true;
+      setTimeout(() => {
+        this.visible = false;
+        this.loading = false;
+        this.showConfirm(); // for confirm delete operation, then delete
+      }, 500);
     },
-    cancel(key) {
-      const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
-      this.editingKey = '';
-      if (target) {
-        Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
-        delete target.editable;
-        this.data = newData;
-      }
+    handleUpdate() {
+      
+      this.loading = true;
+      setTimeout(() => {
+      this.visible = false;
+      this.loading = false;
+      this.$router.push({ path: `/update-requisition/`+this.model.id});
+      }, 500);
+    },
+    handleCancel() {
+      this.visible = false;
+    },
+    
+    customRow(record) {
+      return {
+        on: {
+          click: event => {
+            /**
+             * Can use event and record
+             */
+            this.model = record;
+            this.showModal();
+            console.log(event);
+            console.log(this.model);
+          }
+        }
+      };
+    },
+    
+    openNotificationSuccess(message, description) {
+      /**
+       * Notification toast success
+       */
+      this.$notification.open({
+        message: message,
+        duration: 5,
+        icon: <a-icon type="like" theme="filled" style="color: #27ae60"/>,
+        description:
+          description,
+        onClick: () => {
+          console.log('Notification Clicked!');
+        },
+      });
+    },
+    openNotificationUnsuccess(message, description) {
+      /**
+       * Notification toast unsuccess
+       */
+      this.$notification.open({
+        message: message,
+        duration: 8,
+        icon: <a-icon type="dislike" theme="filled" style="color: #c0392b"/>,
+        description:
+          description,
+        onClick: () => {
+          console.log('Notification Clicked!');
+        },
+      });
+    },
+     
+    showConfirm() {
+      this.$confirm({
+        title: 'Do you want to delete these items?' + this.model.serialno + '('+this.model.id+')',
+        content: 'When clicked the OK button, this dialog will be closed after 1 second',
+        onOk: () => {
+          this.$http.delete("http://127.0.0.1:8000/api/requisition/delete/" + this.model.id).then(
+            function(response) {
+              this.openNotificationSuccess('Successfully Deleted', 'Requisition'+ this.model.serialno +' record deleted.')
+              this.data.splice((this.data.findIndex((e) => e === this.model)), 1);
+              console.log(response);
+            }, (error) => {
+              this.openNotificationUnsuccess('Error', 'Requisition'+ this.model.serialno +' record cannot delete. Operation occured an error !');
+              console.log(error);
+            }
+          );
+          console.log('OK')
+        },
+        onCancel() {
+          console.log('Cancel')
+        },
+      });
     },
   },
+  computed: {
+    searchResult: function() {
+      return this.data.filter((item)=> {
+          return (item.requisition_id.toLowerCase().match(this.search.toLowerCase()) || item.product.toLowerCase().match(this.search.toLowerCase()) || item.approvalStatus.toLowerCase().match(this.search.toLowerCase()));
+      });
+    },
+  }
 };
 </script>
-
-<style>
-.container {
-    background: #fff;
-    padding: 20px;
-}
-</style>
