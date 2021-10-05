@@ -87,6 +87,10 @@
             title: 'Approval Status',
             dataIndex: 'approval_status',
         },
+        {
+            title: 'Reason to reject',
+            dataIndex: 'reason_if_rejected',
+        }
     ];
 
     export default {
@@ -116,6 +120,7 @@
                     estimated_budget: '',
                     site_name: '',
                     approval_status: '',
+                    reason_if_rejected: '',
                 } //**this model is useful when displaying DB retrieved data in our Modal windows */
             }
         },

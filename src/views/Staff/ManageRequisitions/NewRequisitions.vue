@@ -42,12 +42,8 @@
             <div class="row"><div class="col-4"><b>Quantity: </b></div><div class="col-8"><p>{{model.quantity}}</p></div></div>
             <div class="row"><div class="col-4"><b>Estimated Budget: </b></div><div class="col-8"><p>{{model.estimated_budget}}</p></div></div>
             <div class="row"><div class="col-4"><b>Construction Site: </b></div><div class="col-8"><p>{{model.site_name}}</p></div></div>
-            <!-- <div class="row"><b>Requisitions ID: </b><span style="margin-left: 25px;">{{model.requisition_id}}</span></div><br>
-            <div class="row"><b>Good Type: </b><span style="margin-left: 25px;">{{model.good_type}}</span></div>
-            <div class="row"><b>Quantity: </b><span style="margin-left: 25px;">{{model.quantity}}</span></div>
-            <div class="row"><b>Estimated Budget: </b><span style="margin-left: 25px;">{{model.estimated_budget}}</span></div>
-            <div class="row"><b>Construction Site: </b><span style="margin-left: 25px;">{{model.site_name}}</span></div>
-            <div class="row"><b>Construction Site: </b><span style="margin-left: 25px;">{{model.site_name}}</span></div> -->
+            <!-- <div class="row"><div class="col-4"><b>site name: </b></div><div class="col-8"><a-input v-model="model.site_name" disabled/></div></div> -->
+            <div class="row"><div class="col-4"><b>Reason if rejecting</b></div><div class="col-8"><a-input prop="reason_if_rejected" v-model="model.reason_if_rejected" /></div></div>
        
             <!--model view footer-->  
             <template slot="footer">
@@ -149,6 +145,7 @@
                     quantity: '',
                     estimated_budget: '',
                     site_name: '',
+                    reason_if_rejected: '',
                 } //**this model is useful when displaying DB retrieved data in our Modal windows */
             }
         },
@@ -237,7 +234,13 @@
                                 this.openNotificationSuccess('Requisition Approved successfully', 'Requisition - '+ this.model.requisition_id +' Accepted.');
                                 // setTimeout("location.reload(true);", 1000); //this will reload the page
                                 this.requiData.splice((this.requiData.findIndex((e) => e === this.model)), 1);
-                                console.log(response);                             
+                                console.log(response);   
+                                this.loading = true;
+                                setTimeout(() => {
+                                    this.visible = false;
+                                    this.loading = false;
+                                    }, 
+                                    2000);                          
                             }, (error) => {
                                 this.openNotificationUnsuccess('Error', 'Requisition'+ this.model.requisition_id +' requisition approval failed. Operation occured an error !');
                                 console.log(error);
@@ -266,7 +269,13 @@
                                 this.openNotificationSuccess('Requisition Rejected successfully', 'Reuisition - '+ this.model.requisition_id +' rejected.');
                                 // setTimeout("location.reload(true);", 1000); //this will reload the page
                                 this.requiData.splice((this.requiData.findIndex((e) => e === this.model)), 1);
-                                console.log(response);                             
+                                console.log(response);       
+                                this.loading = true;
+                                setTimeout(() => {
+                                    this.visible = false;
+                                    this.loading = false;
+                                    }, 
+                                    2000);                       
                             }, (error) => {
                                 this.openNotificationUnsuccess('Error', 'Requisition'+ this.model.requisition_id +' Requisition reject Failed! . Operation occured an error !');
                                 console.log(error);
