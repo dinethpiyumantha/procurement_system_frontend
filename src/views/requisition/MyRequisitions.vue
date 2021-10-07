@@ -14,9 +14,16 @@
       style="padding: 0px"
       :customRow="customRow"
     >
-      <a-button slot="action" type="primary" shape="circle" @click="showModal"
-        ><a-icon type="right" style="padding-bottom: 5px"
-      /></a-button>
+      
+
+      <span slot="approval" slot-scope="record">
+        <span v-if="record.approvalStatus">
+          <a-tag :color="record.approvalStatus == 'approve' ? 'green' : 'red'">{{record.approvalStatus.toUpperCase()}}</a-tag>
+        </span>
+        <span v-if="!record.approvalStatus">
+          <a-tag color="orange">PENDING</a-tag>
+        </span>
+      </span>
     </a-table>
     <!-- View Model -->
     <div>
@@ -28,6 +35,7 @@
             type="primary"
             :loading="loading"
             @click="handleUpdate"
+            v-if="!model.approvalStatus"
           >
             Edit
           </a-button>
@@ -36,6 +44,7 @@
             type="danger"
             :loading="loading"
             @click="handleDelete"
+            v-if="!model.approvalStatus"
           >
             Delete
           </a-button>
@@ -47,8 +56,8 @@
             <div class="row"><div class="col-4"><b>Requisition ID</b></div><div class="col-8"><p>{{model.requisition_id}}</p></div></div>
             <div class="row"><div class="col-4"><b>Product</b></div><div class="col-8"><p>{{model.good_type}}</p></div></div>
             <div class="row"><div class="col-4"><b>Date Created</b></div><div class="col-8"><p>{{model.dateCreated}}</p></div></div>
+            <div class="row"><div class="col-4"><b>Estimated Budget</b></div><div class="col-8"><p>{{model.estimated_budget}}</p></div></div>
             <div class="row"><div class="col-4"><b>Approval Status</b></div><div class="col-8"><p>{{model.approvalStatus}}</p></div></div>
-            <div class="row"><div class="col-4"><b>Action</b></div><div class="col-8"><p>{{model.action}}</p></div></div>
           </div>
         </div>      
       </a-modal>
@@ -60,6 +69,7 @@
 // Import libraries
 import axios from "axios";
 import 'vue-resource';
+
 /**
  * Table Columns
  * with sort methods and filters
@@ -117,16 +127,16 @@ const columns = [
     sortDirections: ["descend", "ascend"],
   },
    {
-    title: "Approval Status",
-    dataIndex: "approvalStatus",
-    key: 'approvalStatus',
+    title: "Estimated Budget",
+    dataIndex: "estimated_budget",
+    key: 'estimated_budget',
     sorter: (a, b) => {
-      let approvalStatusA = a.approvalStatus.toUpperCase();
-      let approvalStatusB = b.approvalStatus.toUpperCase();
-      if (approvalStatusA < approvalStatusB) {
+      let estimated_budgetA = a.estimated_budget.toUpperCase();
+      let estimated_budgetB = b.estimated_budget.toUpperCase();
+      if (estimated_budgetA < estimated_budgetB) {
         return -1;
       }
-      if (approvalStatusA > approvalStatusB) {
+      if (estimated_budgetA > estimated_budgetB) {
         return 1;
       }
       return 0;
@@ -134,16 +144,9 @@ const columns = [
     sortDirections: ["descend", "ascend"],
   },
   {
-    title: "Action",
-    dataIndex: "action",
-    key: 'action'
-  },
-  {
-    title: "",
-    key: "id",
-    fixed: "right",
-    width: 100,
-    scopedSlots: { customRender: "action" },
+    title: "Approval Status",
+    key: "approvalStatus",
+    scopedSlots: { customRender: "approval"}
   },
 ];
 function onChange(pagination, filters, sorter) {
@@ -164,6 +167,7 @@ export default {
         requisition_id: '',
         good_type: undefined,
         dateCreated: undefined,
+        estimated_budget: '',
         approvalStatus: '',
         action: '',
       }

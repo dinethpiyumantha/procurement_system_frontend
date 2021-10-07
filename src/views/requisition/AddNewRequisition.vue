@@ -10,11 +10,35 @@
 
     <a-form-model-item label="Product" ref="good_type" prop="good_type">
       <a-select v-model="form.good_type" placeholder="Please select product">
-        <a-select-option value="Stones">
-          Stones
-        </a-select-option>
         <a-select-option value="cement">
           Cement
+        </a-select-option>
+        <a-select-option value="sand">
+          Sand
+        </a-select-option>
+        <a-select-option value="big black stones">
+          Big Black Stones
+        </a-select-option>
+        <a-select-option value="cement bricks">
+          Cement Bricks
+        </a-select-option>
+        <a-select-option value="red bricks">
+          Red Bricks
+        </a-select-option>
+        <a-select-option value="gravel">
+          Gravel
+        </a-select-option>
+        <a-select-option value="steel rods">
+          Steel Rods
+        </a-select-option>
+        <a-select-option value="roofing sheets">
+          Roofing Sheets
+        </a-select-option>
+        <a-select-option value="nails">
+          Nails
+        </a-select-option>
+        <a-select-option value="timber parala">
+          Timber Parala
         </a-select-option>
       </a-select>
     </a-form-model-item>
